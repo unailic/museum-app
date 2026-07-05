@@ -1,9 +1,12 @@
 
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Muzej.API.Middleware;
+using Muzej.API.Service;
 using Muzej.Application.Autori.Commands.KreirajAutora;
 using Muzej.Application.Common.Behaviors;
 using Muzej.Domain.Entities;
@@ -11,6 +14,8 @@ using Muzej.Domain.Repositories;
 using Muzej.Infrastructure;
 using Muzej.Infrastructure.Identity;
 using Scalar.AspNetCore;
+using System.Text;
+
 
 namespace Muzej.API
 {
@@ -44,6 +49,25 @@ namespace Muzej.API
 
             builder.Services.AddValidatorsFromAssemblyContaining<KreirajAutoraCommand>();
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            builder.Services.AddScoped<JwtTokenService>();
+
+            builder.Services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
 
             var app = builder.Build();
 
@@ -81,6 +105,44 @@ namespace Muzej.API
 
             // Configure the HTTP request pipeline.
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                foreach (var uloga in new[] { "Posetilac", "Administrator" })
+                {
+                    if (!await roleManager.RoleExistsAsync(uloga))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(uloga));
+                    }
+                }
+            }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Korisnik>>();
+
+                var admin = await userManager.FindByEmailAsync("admin@muzej.com");
+                if (admin is null)
+                {
+                    admin = new Korisnik
+                    {
+                        UserName = "admin",
+                        Email = "admin@muzej.com",
+                        Ime = "Jovan",
+                        Prezime = "Jovanović",
+                        Zvanje = "Direktor"
+                    };
+
+                    var result = await userManager.CreateAsync(admin, "Admin123!");
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(admin, "Administrator");
+                        Console.WriteLine($"Admin kreiran, Id: {admin.Id}");
+                    }
+                }
+            }
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
@@ -88,6 +150,8 @@ namespace Muzej.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication(); //!!
 
             app.UseAuthorization();
 

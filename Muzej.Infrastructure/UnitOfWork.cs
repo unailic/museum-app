@@ -9,7 +9,7 @@ namespace Muzej.Infrastructure
         private readonly MuzejContext _context;
 
         private IAutorRepository? _autori;
-        private IRepository<UmetnickoDelo>? _umetnickaDela;
+        private IUmetnickoDeloRepository? _umetnickaDela;
         private IIzlozbaRepository? _izlozbe;
         private IRepository<StavkaIzlozbe>? _stavkeIzlozbe;
         private IUlaznicaRepository? _ulaznice;
@@ -22,8 +22,8 @@ namespace Muzej.Infrastructure
         public IAutorRepository Autori =>
             _autori ??= new AutorRepository(_context);
 
-        public IRepository<UmetnickoDelo> UmetnickaDela =>
-            _umetnickaDela ??= new Repository<UmetnickoDelo>(_context);
+        public IUmetnickoDeloRepository UmetnickaDela =>
+            _umetnickaDela ??= new UmetnickoDeloRepository(_context);
 
         public IIzlozbaRepository Izlozbe =>
             _izlozbe ??= new IzlozbaRepository(_context);

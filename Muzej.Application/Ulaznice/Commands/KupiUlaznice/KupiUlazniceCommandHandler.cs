@@ -24,6 +24,9 @@ namespace Muzej.Application.Ulaznice.Commands.KupiUlaznice
             if (izlozba == null)
                 throw new InvalidOperationException("Izložba ne postoji.");
 
+            if (izlozba.DatumZavrsetka < DateTime.Now)
+                throw new InvalidOperationException("Ne možete kupiti kartu za izložbu koja je već završena.");
+
             var slobodne = _uow.Ulaznice.GetSlobodneZaIzlozbu(request.IzlozbaId, request.BrojKarata).ToList();
 
             if (slobodne.Count < request.BrojKarata)
