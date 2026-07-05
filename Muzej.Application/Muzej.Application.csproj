@@ -15,13 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Autori\Queries\" />
-    <Folder Include="Izlozbe\Commands\" />
-    <Folder Include="Izlozbe\Queries\" />
     <Folder Include="Ulaznice\Commands\" />
     <Folder Include="Ulaznice\Queries\" />
-    <Folder Include="UmetnickaDela\Commands\" />
-    <Folder Include="UmetnickaDela\Queries\" />
   </ItemGroup>
 
 </Project>

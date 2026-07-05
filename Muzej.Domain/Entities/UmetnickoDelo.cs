@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Muzej.Domain.Entities
 {
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "tip")]
+    [JsonDerivedType(typeof(Slika), "Slika")]
+    [JsonDerivedType(typeof(Skulptura), "Skulptura")]
     public abstract class UmetnickoDelo
     {
         public int Id { get; set; }
