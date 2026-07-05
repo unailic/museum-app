@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Muzej.API/Muzej.API.csproj" />
+  <Project Path="Muzej.Domain/Muzej.Domain.csproj" />
+  <Project Path="Muzej.Infrastructure/Muzej.Infrastructure.csproj" />
+</Solution>
