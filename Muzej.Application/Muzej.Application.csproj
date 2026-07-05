@@ -14,9 +14,4 @@
     <ProjectReference Include="..\Muzej.Domain\Muzej.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Ulaznice\Commands\" />
-    <Folder Include="Ulaznice\Queries\" />
-  </ItemGroup>
-
 </Project>
