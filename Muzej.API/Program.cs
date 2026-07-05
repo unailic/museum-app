@@ -1,13 +1,15 @@
 
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Muzej.API.Middleware;
 using Muzej.Application.Autori.Commands.KreirajAutora;
+using Muzej.Application.Common.Behaviors;
 using Muzej.Domain.Entities;
 using Muzej.Domain.Repositories;
 using Muzej.Infrastructure;
 using Muzej.Infrastructure.Identity;
-
 using Scalar.AspNetCore;
 
 namespace Muzej.API
@@ -40,7 +42,12 @@ namespace Muzej.API
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MuzejContext>();
 
+            builder.Services.AddValidatorsFromAssemblyContaining<KreirajAutoraCommand>();
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
             var app = builder.Build();
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             //using (var scope = app.Services.CreateScope())
             //{
@@ -73,6 +80,7 @@ namespace Muzej.API
             //}
 
             // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
