@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Muzej.API/Muzej.API.csproj" />
+  <Project Path="Muzej.Application/Muzej.Application.csproj" Id="a93933ca-2322-476f-bc8b-de1863461b4e" />
   <Project Path="Muzej.Domain/Muzej.Domain.csproj" />
   <Project Path="Muzej.Infrastructure/Muzej.Infrastructure.csproj" />
 </Solution>

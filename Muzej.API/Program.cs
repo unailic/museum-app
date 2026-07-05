@@ -1,6 +1,10 @@
 
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Muzej.Application.Autori.Commands.KreirajAutora;
+using Muzej.Domain.Repositories;
 using Muzej.Infrastructure;
+using Scalar.AspNetCore;
 
 namespace Muzej.API
 {
@@ -19,12 +23,16 @@ namespace Muzej.API
             builder.Services.AddDbContext<MuzejContext>(options =>
                     options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MuzejDb;Trusted_Connection=True;"));
 
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<KreirajAutoraCommand>());
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();
