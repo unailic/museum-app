@@ -1,4 +1,4 @@
-# Muzej
+# Muzej (Museum)
 
 Muzej is a web application for museum management, developed as a project for the Advanced .NET Technologies course. The application allows visitors to browse a catalog of artworks, authors, and exhibitions, purchase tickets for exhibitions, and manage their own ticket history. Administrators can manage the full catalog and view all sold tickets.
 
@@ -48,6 +48,7 @@ An IzlozbaStatusService background service automatically updates the status of e
 
 The project follows a layered (Clean Architecture-inspired) structure:
 
+```
 Muzej
 ├── Muzej.Domain
 ├── Muzej.Infrastructure
@@ -55,6 +56,7 @@ Muzej
 ├── Muzej.API
 │   └── wwwroot (frontend)
 └── Muzej.sln
+```
 
 ### Muzej.Domain
 
@@ -90,6 +92,7 @@ The application layer, implementing CQRS through MediatR. Organized in "feature 
 
 Structure per entity area (Autori, UmetnickaDela, Izlozbe, Ulaznice):
 
+```
 EntityArea
 ├── Commands
 │   └── OperationName
@@ -102,6 +105,7 @@ EntityArea
 │       └── QueryNameQueryHandler.cs
 └── Dtos
 └── EntityDto.cs
+```
 
 Also contains:
 - `Common/Behaviors/ValidationBehavior.cs` — a MediatR pipeline behavior that automatically runs FluentValidation on every Command/Query before it reaches its handler, throwing a `ValidationException` on failure.
