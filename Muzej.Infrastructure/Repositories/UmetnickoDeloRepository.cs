@@ -14,5 +14,8 @@ namespace Muzej.Infrastructure.Repositories
 
         public UmetnickoDelo? GetByIdWithStavke(int id) =>
             DbSet.Include(d => d.StavkeIzlozbe).FirstOrDefault(d => d.Id == id);
+
+        public IEnumerable<UmetnickoDelo> GetAllWithAutor() =>
+                                    DbSet.Include(d => d.Autor).ToList();
     }
 }

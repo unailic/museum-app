@@ -5,5 +5,6 @@ namespace Muzej.Domain.Repositories
     public interface IAutorRepository : IRepository<Autor>
     {
         Autor? GetByIdWithDela(int id);
+        IEnumerable<Autor> GetAllWithDela();
     }
 }

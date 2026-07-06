@@ -9,5 +9,6 @@ namespace Muzej.Domain.Repositories
     public interface IUmetnickoDeloRepository : IRepository<UmetnickoDelo>
     {
         UmetnickoDelo? GetByIdWithStavke(int id);
+        IEnumerable<UmetnickoDelo> GetAllWithAutor();
     }
 }

@@ -11,5 +11,6 @@ namespace Muzej.Infrastructure.Repositories
         public Autor? GetByIdWithDela(int id) =>
             DbSet.Include(a => a.Dela)
                  .FirstOrDefault(a => a.Id == id);
+        public IEnumerable<Autor> GetAllWithDela() => DbSet.Include(a => a.Dela).ToList();
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using Muzej.Application.Autori.Dtos;
+using Muzej.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-using MediatR;
-using Muzej.Domain.Entities;
-
 namespace Muzej.Application.Autori.Queries.GetAutori
 {
-    public class GetAutoriQuery : IRequest<List<Autor>>
+    public class GetAutoriQuery : IRequest<List<AutorDto>>
     {
     }
 }

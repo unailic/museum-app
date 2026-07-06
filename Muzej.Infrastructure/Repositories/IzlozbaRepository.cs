@@ -13,5 +13,8 @@ namespace Muzej.Infrastructure.Repositories
                     .ThenInclude(si => si.UmetnickoDelo)
                  .Include(i => i.Ulaznice)
                  .FirstOrDefault(i => i.Id == id);
+
+        public IEnumerable<Izlozba> GetAllWithUlaznice() =>
+                                        DbSet.Include(i => i.Ulaznice).ToList();
     }
 }

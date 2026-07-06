@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using Muzej.Application.Ulaznice.Dtos;
+using Muzej.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-using MediatR;
-using Muzej.Domain.Entities;
-
 namespace Muzej.Application.Ulaznice.Queries.GetMojeUlaznice
 {
-    public class GetMojeUlazniceQuery : IRequest<List<Ulaznica>>
+    public class GetMojeUlazniceQuery : IRequest<List<UlaznicaDto>>
     {
         public string PosetilacId { get; set; }
     }

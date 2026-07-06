@@ -12,5 +12,10 @@ namespace Muzej.Infrastructure.Repositories
             DbSet.Where(u => u.IzlozbaId == izlozbaId && u.Status == StatusUlaznice.Slobodna)
                  .Take(brojKarata)
                  .ToList();
+
+        public IEnumerable<Ulaznica> GetMojeUlazniceWithIzlozba(string posetilacId) =>
+                DbSet.Include(u => u.Izlozba)
+                    .Where(u => u.PosetilacId == posetilacId)
+                    .ToList();
     }
 }

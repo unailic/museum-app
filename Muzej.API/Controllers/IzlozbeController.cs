@@ -1,10 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Muzej.Application.Izlozbe.Commands.DodajDeloNaIzlozbu;
 using Muzej.Application.Izlozbe.Commands.IzmeniIzlozbu;
 using Muzej.Application.Izlozbe.Commands.KreirajIzlozbu;
 using Muzej.Application.Izlozbe.Commands.ObrisiIzlozbu;
+using Muzej.Application.Izlozbe.Commands.UkloniDeloSaIzlozbe;
+using Muzej.Application.Izlozbe.Queries.GetIzlozbaById;
 using Muzej.Application.Izlozbe.Queries.GetIzlozbe;
+using System.Runtime.Intrinsics.Arm;
 
 namespace Muzej.API.Controllers
 {
@@ -52,5 +56,35 @@ namespace Muzej.API.Controllers
             var success = await _mediator.Send(new ObrisiIzlozbuCommand { Id = id });
             return success ? NoContent() : NotFound();
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetIzlozbaByIdQuery { Id = id });
+            return result != null ? Ok(result) : NotFound();
+        }
+
+        [HttpPost("{izlozbaId}/dela/{umetnickoDeloId}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DodajDelo(int izlozbaId, int umetnickoDeloId, [FromBody] string? napomena = null)
+        {
+            var command = new DodajDeloNaIzlozbuCommand
+            {
+                IzlozbaId = izlozbaId,
+                UmetnickoDeloId = umetnickoDeloId,
+                Napomena = napomena
+            };
+            var id = await _mediator.Send(command);
+            return Ok(new { stavkaId = id });
+        }
+
+        [HttpDelete("stavke/{stavkaId}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> UkloniDelo(int stavkaId)
+        {
+            var success = await _mediator.Send(new UkloniDeloSaIzlozbeCommand { StavkaId = stavkaId });
+            return success ? NoContent() : NotFound();
+        }
+
     }
 }
