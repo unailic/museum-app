@@ -16,6 +16,7 @@ using Muzej.Infrastructure.Identity;
 using Scalar.AspNetCore;
 using System.Text;
 
+using Muzej.API.BackgroundServices;
 
 namespace Muzej.API
 {
@@ -68,6 +69,8 @@ namespace Muzej.API
                             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                     };
                 });
+
+            builder.Services.AddHostedService<IzlozbaStatusService>();
 
             var app = builder.Build();
 
