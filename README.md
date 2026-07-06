@@ -24,7 +24,7 @@ Administrator can:
 - add or remove artworks from an exhibition (StavkaIzlozbe)
 - view all sold tickets across all visitors
 
-An IzlozbaStatusService background service automatically updates the status of each exhibition (Najavljena/Aktivna/Zavrsena — Announced/Active/Finished) based on the current date, independent of any HTTP request.
+An IzlozbaStatusService background service automatically updates the status of each exhibition (Najavljena/Aktivna/Zavrsena - Announced/Active/Finished) based on the current date, independent of any HTTP request.
 
 ## Technologies
 
@@ -81,14 +81,14 @@ Also contains the Repository/Unit of Work interfaces (`IRepository<T>`, `IAutorR
 
 The infrastructure layer, containing the concrete implementation of data access and identity.
 
-- `MuzejContext` — inherits `IdentityDbContext<Korisnik>`, meaning the application uses ASP.NET Identity for authentication and role management. Configures TPH (Table Per Hierarchy) inheritance for `UmetnickoDelo`, all entity relationships, and cascade/restrict delete behavior.
-- `Korisnik` — the Identity user class (inherits `IdentityUser`), extended with `Ime`, `Prezime`, `TipPosetioca`, and `Zvanje`.
-- `Repository<T>` and specific repositories (`AutorRepository`, `IzlozbaRepository`, `UlaznicaRepository`, `UmetnickoDeloRepository`) — concrete EF Core implementations, including `.Include()`-based queries for loading related data.
-- `UnitOfWork` — aggregates all repositories and exposes `SaveChanges()`, using lazy initialization for each repository.
+- `MuzejContext` - inherits `IdentityDbContext<Korisnik>`, meaning the application uses ASP.NET Identity for authentication and role management. Configures TPH (Table Per Hierarchy) inheritance for `UmetnickoDelo`, all entity relationships, and cascade/restrict delete behavior.
+- `Korisnik` - the Identity user class (inherits `IdentityUser`), extended with `Ime`, `Prezime`, `TipPosetioca`, and `Zvanje`.
+- `Repository<T>` and specific repositories (`AutorRepository`, `IzlozbaRepository`, `UlaznicaRepository`, `UmetnickoDeloRepository`) - concrete EF Core implementations, including `.Include()`-based queries for loading related data.
+- `UnitOfWork` - aggregates all repositories and exposes `SaveChanges()`, using lazy initialization for each repository.
 
 ### Muzej.Application
 
-The application layer, implementing CQRS through MediatR. Organized in "feature folders" — each operation (Command or Query) has its own subfolder containing the request, its handler, and (where applicable) its FluentValidation validator.
+The application layer, implementing CQRS through MediatR. Organized in "feature folders" - each operation (Command or Query) has its own subfolder containing the request, its handler, and (where applicable) its FluentValidation validator.
 
 Structure per entity area (Autori, UmetnickaDela, Izlozbe, Ulaznice):
 
@@ -108,7 +108,7 @@ EntityArea
 ```
 
 Also contains:
-- `Common/Behaviors/ValidationBehavior.cs` — a MediatR pipeline behavior that automatically runs FluentValidation on every Command/Query before it reaches its handler, throwing a `ValidationException` on failure.
+- `Common/Behaviors/ValidationBehavior.cs` - a MediatR pipeline behavior that automatically runs FluentValidation on every Command/Query before it reaches its handler, throwing a `ValidationException` on failure.
 
 One exception to this structure exists: `GetSveUlazniceQueryHandler`, which combines data from both the Domain (Ulaznice) and Identity (Korisnik) — since Muzej.Application must not depend on Muzej.Infrastructure, this specific handler lives in `Muzej.API/Handlers` instead.
 
@@ -117,27 +117,27 @@ One exception to this structure exists: `GetSveUlazniceQueryHandler`, which comb
 The backend entry point. Contains controllers, the JWT token service, middleware, the background service, and the static frontend.
 
 Controllers:
-- `AuthController` — registration and login, issuing JWT tokens
-- `AutoriController` — CRUD for Autor (Create/Update/Delete restricted to Administrator)
-- `UmetnickaDelaController` — CRUD for UmetnickoDelo (Create/Update/Delete restricted to Administrator)
-- `IzlozbeController` — CRUD for Izlozba, plus adding/removing artworks from an exhibition and a GetById endpoint with full exhibition details
-- `UlanziceController` — ticket purchasing, viewing own tickets, cancelling a ticket, and (Administrator only) viewing all sold tickets
+- `AuthController` - registration and login, issuing JWT tokens
+- `AutoriController` - CRUD for Autor (Create/Update/Delete restricted to Administrator)
+- `UmetnickaDelaController` - CRUD for UmetnickoDelo (Create/Update/Delete restricted to Administrator)
+- `IzlozbeController` - CRUD for Izlozba, plus adding/removing artworks from an exhibition and a GetById endpoint with full exhibition details
+- `UlanziceController` - ticket purchasing, viewing own tickets, cancelling a ticket, and (Administrator only) viewing all sold tickets
 
 Other:
-- `Service/JwtTokenService.cs` — generates JWT tokens with claims for user id, email, name, and role
-- `Middleware/GlobalExceptionMiddleware.cs` — catches `ValidationException` and `InvalidOperationException` globally, converting them into consistent JSON 400 responses instead of raw 500 errors
-- `BackgroundServices/IzlozbaStatusService.cs` — a `BackgroundService` that periodically updates exhibition statuses based on the current date, independent of any HTTP request
+- `Service/JwtTokenService.cs` - generates JWT tokens with claims for user id, email, name, and role
+- `Middleware/GlobalExceptionMiddleware.cs` - catches `ValidationException` and `InvalidOperationException` globally, converting them into consistent JSON 400 responses instead of raw 500 errors
+- `BackgroundServices/IzlozbaStatusService.cs` - a `BackgroundService` that periodically updates exhibition statuses based on the current date, independent of any HTTP request
 
 ### wwwroot (Frontend)
 
 A plain HTML/CSS/JavaScript frontend, served statically by the API itself (no separate frontend server, no CORS configuration needed).
 
 Pages:
-- `index.html` — login and registration (single form, toggled via JavaScript)
-- `katalog.html` — public browsing of Izlozbe, UmetnickaDela, and Autori (tabbed view)
-- `izlozba.html` — details of a single exhibition and ticket purchase form
-- `moje-karte.html` — a visitor's own ticket history, with cancellation
-- `admin.html` — full CRUD interface for Administrator, plus exhibition/artwork linking and a view of all sold tickets
+- `index.html` - login and registration (single form, toggled via JavaScript)
+- `katalog.html` - public browsing of Izlozbe, UmetnickaDela, and Autori (tabbed view)
+- `izlozba.html` - details of a single exhibition and ticket purchase form
+- `moje-karte.html` - a visitor's own ticket history, with cancellation
+- `admin.html` - full CRUD interface for Administrator, plus exhibition/artwork linking and a view of all sold tickets
 
 The JWT token is decoded client-side (`decodeToken` in `js/api.js`) purely to adjust which navigation links and pages are shown — this is a UX convenience only. The actual security boundary is enforced server-side through `[Authorize(Roles = "Administrator")]` on the relevant endpoints.
 
