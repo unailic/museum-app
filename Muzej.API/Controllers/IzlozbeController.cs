@@ -28,7 +28,8 @@ namespace Muzej.API.Controllers
         public async Task<IActionResult> Create([FromBody] KreirajIzlozbuCommand command)
         {
             var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(Create), new { id }, null);
+            return Ok(new { success = true, id = id });
+            //return CreatedAtAction(nameof(Create), new { id }, null);
         }
 
         [HttpGet]

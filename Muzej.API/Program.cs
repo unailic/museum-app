@@ -72,7 +72,12 @@ namespace Muzej.API
 
             builder.Services.AddHostedService<IzlozbaStatusService>();
 
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
             var app = builder.Build();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseMiddleware<GlobalExceptionMiddleware>();
 

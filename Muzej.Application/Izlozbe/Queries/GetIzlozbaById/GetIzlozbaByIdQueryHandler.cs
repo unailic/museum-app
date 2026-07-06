@@ -35,7 +35,12 @@ namespace Muzej.Application.Izlozbe.Queries.GetIzlozbaById
                 Cena = izlozba.Cena,
                 Kapacitet = izlozba.Kapacitet,
                 BrojSlobodnihKarata = izlozba.Ulaznice.Count(u => u.Status == StatusUlaznice.Slobodna),
-                NaziviDela = izlozba.StavkeIzlozbe.Select(si => si.UmetnickoDelo.Naziv).ToList()
+                NaziviDela = izlozba.StavkeIzlozbe.Select(si => si.UmetnickoDelo.Naziv).ToList(),
+                Stavke = izlozba.StavkeIzlozbe.Select(si => new StavkaIzlozbeDto
+                {
+                    StavkaId = si.Id,
+                    NazivDela = si.UmetnickoDelo.Naziv
+                }).ToList()
             };
 
             return Task.FromResult<IzlozbaDetaljiDto?>(dto);

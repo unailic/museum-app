@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzej - Administracija</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>MUZEJ<span>.</span></h1>
+        <nav>
+            <a href="katalog.html">Katalog</a>
+            <a href="moje-karte.html" id="nav-moje-karte" style="display:none;">Moje karte</a>
+            <a href="admin.html" id="nav-admin" style="display:none;">Administracija</a>
+            <a href="#" id="nav-logout" style="display:none;">Odjava</a>
+            <a href="index.html" id="nav-login">Prijava</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Administracija</h2>
+
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" data-tab="admin-autori">Autori</button>
+            <button type="button" class="tab-btn" data-tab="admin-dela">Umetnička dela</button>
+            <button type="button" class="tab-btn" data-tab="admin-izlozbe">Izložbe</button>
+            <button type="button" class="tab-btn" data-tab="admin-karte">Prodate karte</button>
+        </div>
+
+        <!-- AUTORI -->
+        <div id="tab-admin-autori" class="tab-panel">
+            <h3 id="autor-form-naslov">Dodaj novog autora</h3>
+            <form id="autor-form" class="form-wide">
+                <input type="hidden" id="autor-id">
+                <label for="autor-ime">Ime</label>
+                <input type="text" id="autor-ime" required>
+
+                <label for="autor-prezime">Prezime</label>
+                <input type="text" id="autor-prezime" required>
+
+                <label for="autor-biografija">Biografija</label>
+                <textarea id="autor-biografija" rows="3" required></textarea>
+
+                <label for="autor-godina">Godina rođenja</label>
+                <input type="number" id="autor-godina" required>
+
+                <button type="submit" id="autor-submit-btn">Dodaj autora</button>
+                <button type="button" id="autor-cancel-btn" class="secondary" style="display:none;">Otkaži izmenu</button>
+                <div id="autor-message"></div>
+            </form>
+
+            <h3 style="margin-top: 2rem;">Postojeći autori</h3>
+            <div id="autori-admin-lista"></div>
+        </div>
+
+        <!-- UMETNIČKA DELA -->
+        <div id="tab-admin-dela" class="tab-panel" style="display:none;">
+            <h3 id="delo-form-naslov">Dodaj novo delo</h3>
+            <form id="delo-form" class="form-wide">
+                <input type="hidden" id="delo-id">
+                <label for="delo-naziv">Naziv</label>
+                <input type="text" id="delo-naziv" required>
+
+                <label for="delo-godina">Godina nastanka</label>
+                <input type="number" id="delo-godina" required>
+
+                <label for="delo-opis">Opis</label>
+                <textarea id="delo-opis" rows="3" required></textarea>
+
+                <label for="delo-img">URL slike</label>
+                <input type="text" id="delo-img">
+
+                <label for="delo-autor">Autor</label>
+                <select id="delo-autor" required></select>
+
+                <label for="delo-tip">Tip dela</label>
+                <select id="delo-tip">
+                    <option value="0">Slika</option>
+                    <option value="1">Skulptura</option>
+                </select>
+
+                <div id="delo-slika-polja">
+                    <label for="delo-tehnika">Tehnika</label>
+                    <input type="text" id="delo-tehnika">
+
+                    <label for="delo-dimenzije">Dimenzije</label>
+                    <input type="text" id="delo-dimenzije">
+                </div>
+
+                <div id="delo-skulptura-polja" style="display:none;">
+                    <label for="delo-materijal">Materijal</label>
+                    <input type="text" id="delo-materijal">
+
+                    <label for="delo-visina">Visina (cm)</label>
+                    <input type="number" id="delo-visina" step="0.1">
+                </div>
+
+                <button type="submit" id="delo-submit-btn">Dodaj delo</button>
+                <button type="button" id="delo-cancel-btn" class="secondary" style="display:none;">Otkaži izmenu</button>
+                <div id="delo-message"></div>
+            </form>
+
+            <h3 style="margin-top: 2rem;">Postojeća dela</h3>
+            <div id="dela-admin-lista"></div>
+        </div>
+
+        <!-- IZLOŽBE -->
+        <div id="tab-admin-izlozbe" class="tab-panel" style="display:none;">
+            <h3 id="izlozba-form-naslov">Dodaj novu izložbu</h3>
+            <form id="izlozba-form" class="form-wide">
+                <input type="hidden" id="izlozba-id">
+                <label for="izlozba-naziv">Naziv</label>
+                <input type="text" id="izlozba-naziv" required>
+
+                <label for="izlozba-opis">Opis</label>
+                <textarea id="izlozba-opis" rows="3" required></textarea>
+
+                <label for="izlozba-pocetak">Datum početka</label>
+                <input type="date" id="izlozba-pocetak" required>
+
+                <label for="izlozba-kraj">Datum završetka</label>
+                <input type="date" id="izlozba-kraj" required>
+
+                <label for="izlozba-cena">Cena</label>
+                <input type="number" id="izlozba-cena" required>
+
+                <label for="izlozba-kapacitet" id="kapacitet-label">Kapacitet</label>
+                <input type="number" id="izlozba-kapacitet" required>
+
+                <button type="submit" id="izlozba-submit-btn">Dodaj izložbu</button>
+                <button type="button" id="izlozba-cancel-btn" class="secondary" style="display:none;">Otkaži izmenu</button>
+                <div id="izlozba-message"></div>
+            </form>
+
+            <h3 style="margin-top: 2rem;">Postojeće izložbe</h3>
+            <div id="izlozbe-admin-lista"></div>
+        </div>
+
+        <!-- PRODATE KARTE -->
+        <div id="tab-admin-karte" class="tab-panel" style="display:none;">
+            <h3>Pregled svih prodatih karata</h3>
+            <div id="karte-admin-lista"></div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

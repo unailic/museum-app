@@ -16,5 +16,12 @@ namespace Muzej.Application.Izlozbe.Dtos
         public int Kapacitet { get; set; }
         public int BrojSlobodnihKarata { get; set; }
         public List<string> NaziviDela { get; set; } = new();
+        public List<StavkaIzlozbeDto> Stavke { get; set; } = new();
+    }
+
+    public class StavkaIzlozbeDto
+    {
+        public int StavkaId { get; set; }
+        public string NazivDela { get; set; }
     }
 }

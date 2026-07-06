@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzej - Katalog</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>MUZEJ<span>.</span></h1>
+        <nav>
+            <a href="katalog.html">Katalog</a>
+            <a href="moje-karte.html" id="nav-moje-karte" style="display:none;">Moje karte</a>
+            <a href="admin.html" id="nav-admin" style="display:none;">Administracija</a>
+            <a href="#" id="nav-logout" style="display:none;">Odjava</a>
+            <a href="index.html" id="nav-login">Prijava</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="tab-nav">
+            <button type="button" class="tab-btn active" data-tab="izlozbe">Izložbe</button>
+            <button type="button" class="tab-btn" data-tab="dela">Umetnička dela</button>
+            <button type="button" class="tab-btn" data-tab="autori">Autori</button>
+        </div>
+
+        <div id="tab-izlozbe" class="tab-panel">
+            <h2>Izložbe</h2>
+            <div id="izlozbe-lista"></div>
+        </div>
+
+        <div id="tab-dela" class="tab-panel" style="display: none;">
+            <h2>Umetnička dela</h2>
+            <div id="dela-lista"></div>
+        </div>
+
+        <div id="tab-autori" class="tab-panel" style="display: none;">
+            <h2>Autori</h2>
+            <div id="autori-lista"></div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/katalog.js"></script>
+</body>
+</html>

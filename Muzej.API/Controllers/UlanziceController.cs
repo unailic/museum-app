@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Muzej.Application.Ulaznice.Commands.KupiUlaznice;
 using Muzej.Application.Ulaznice.Commands.OtkaziUlaznicu;
 using Muzej.Application.Ulaznice.Queries.GetMojeUlaznice;
+using Muzej.Application.Ulaznice.Queries.GetSveUlaznice;
 using Muzej.Domain.Entities;
 using System.Security.Claims;
 
@@ -53,7 +54,17 @@ namespace Muzej.API.Controllers
             var success = await _mediator.Send(new OtkaziUlaznicuCommand { Id = id, PosetilacId = posetilacId });
             return success ? NoContent() : NotFound();
         }
+
+        [HttpGet("admin/sve")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> SveUlaznice()
+        {
+            var result = await _mediator.Send(new GetSveUlazniceQuery());
+            return Ok(result);
+        }
     }
+
+
 
     public record KupiUlazniceRequest(TipPosetioca TipPosetioca, int IzlozbaId, int BrojKarata);
 }

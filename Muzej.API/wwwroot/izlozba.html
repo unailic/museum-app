@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzej - Detalji izložbe</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>MUZEJ<span>.</span></h1>
+        <nav>
+            <a href="katalog.html">Katalog</a>
+            <a href="moje-karte.html" id="nav-moje-karte" style="display:none;">Moje karte</a>
+            <a href="admin.html" id="nav-admin" style="display:none;">Administracija</a>
+            <a href="#" id="nav-logout" style="display:none;">Odjava</a>
+            <a href="index.html" id="nav-login">Prijava</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="izlozba-detalji"></div>
+
+        <div id="kupovina-sekcija" style="display:none; margin-top: 2rem;">
+            <h2>Kupovina karata</h2>
+            <form id="kupovina-form" class="form-wide">
+                <label for="broj-karata">Broj karata</label>
+                <input type="number" id="broj-karata" min="1" value="1" required>
+
+                <label for="tip-posetioca">Tip posetioca</label>
+                <select id="tip-posetioca">
+                    <option value="0">Redovan</option>
+                    <option value="1">Student</option>
+                    <option value="2">Penzioner</option>
+                </select>
+
+                <button type="submit">Kupi karte</button>
+                <div id="kupovina-message"></div>
+            </form>
+        </div>
+
+        <div id="prijava-poruka" style="display:none;">
+            <p>Da biste kupili kartu, potrebno je da se <a href="index.html">prijavite</a>.</p>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/izlozba.js"></script>
+</body>
+</html>
